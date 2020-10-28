@@ -1,9 +1,14 @@
 package cn.hellomyheart.rabbitmq.demo.controller;
 
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 /**
  * @description
@@ -40,6 +45,25 @@ public class MqController {
         return "ok";
     }
 
+    @GetMapping("/api/mq/sendheadermsg.do")
+    public String sendHeaderMsg(String type,String msg){
+        template.convertAndSend("exheadersdemo","",msg, (message) -> {
+            MessageProperties messageProperties = message.getMessageProperties();
+            messageProperties.getHeaders().put(type,"100");
+            return message;
+        },new CorrelationData(UUID.randomUUID().toString()));
+        return "ok";
+
+//        template.convertAndSend("exheadersdemo","", msg,
+//                new MessagePostProcessor() {
+//                    @Override
+//                    public Message postProcessMessage(Message message) throws AmqpException {
+//                        MessageProperties properties=message.getMessageProperties();
+//                        properties.getHeaders().put(t,"222");
+//                        return message;
+//                    }
+//                },new CorrelationData(UUID.randomUUID().toString()));
+    }
 
 
 }
