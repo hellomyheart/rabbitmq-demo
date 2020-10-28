@@ -7,6 +7,8 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
+
 /**
  * @description
  * @className: DirectConfig
@@ -16,6 +18,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class DirectConfig {
+
+    @Resource
+    DirectExchange createDireExchange;
+
     //队列
     @Bean
     public Queue createDirectQ1(){
@@ -34,13 +40,13 @@ public class DirectConfig {
     }
 
     @Bean
-    public Binding createBindingDirect01(DirectExchange directExchange){
-        return BindingBuilder.bind(createDirectQ1()).to(directExchange).with("info");
+    public Binding createBindingDirect01(){
+        return BindingBuilder.bind(createDirectQ1()).to(createDireExchange).with("info");
     }
 
     @Bean
-    public Binding createBindingDirect02(DirectExchange directExchange){
-        return BindingBuilder.bind(createDirectQ2()).to(directExchange).with("error");
+    public Binding createBindingDirect02(){
+        return BindingBuilder.bind(createDirectQ2()).to(createDireExchange).with("error");
     }
 
 }

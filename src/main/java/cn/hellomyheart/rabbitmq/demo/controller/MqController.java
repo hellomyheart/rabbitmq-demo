@@ -65,5 +65,12 @@ public class MqController {
 //                },new CorrelationData(UUID.randomUUID().toString()));
     }
 
+    @GetMapping("/api/mq/senddlxmsg.do")
+    public String sendDlxMsg(String msg){
+        System.out.println("发送消息"+System.currentTimeMillis()/1000);
+        template.convertAndSend("","ttlqdemo",msg);
+        return "ok";
+    }
+
 
 }
