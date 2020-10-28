@@ -34,6 +34,12 @@ public class MqController {
         return "ok";
     }
 
+    @GetMapping("/api/mq/sendtopicmsg.do")
+    public String sendTopicMsg(String type,String msg){
+        template.convertAndSend("extopicdemo",type,msg);
+        return "ok";
+    }
+
 
 
 }
