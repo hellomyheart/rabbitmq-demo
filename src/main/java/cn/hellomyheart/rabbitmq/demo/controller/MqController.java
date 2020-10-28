@@ -19,7 +19,12 @@ public class MqController {
 
     @GetMapping("/api/mq/sendmsg.do")
     public String sendMsg(String msg){
-        template.convertAndSend("","demo",msg);
+        template.convertAndSend("","workdemo",msg);
+        return "ok";
+    }
+    @GetMapping("/api/mq/sendworkmsg.do")
+    public String sendWorkMsg(String msg){
+        template.convertAndSend("","workdemo",msg);
         return "ok";
     }
 }
