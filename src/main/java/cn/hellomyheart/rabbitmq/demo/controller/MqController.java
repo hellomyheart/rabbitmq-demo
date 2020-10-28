@@ -27,4 +27,10 @@ public class MqController {
         template.convertAndSend("","workdemo",msg);
         return "ok";
     }
+
+    @GetMapping("/api/mq/sendfanoutmsg.do")
+    public String sendFanoutMsg(String msg){
+        template.convertAndSend("exFanoutdemo","",msg);
+        return "ok";
+    }
 }
